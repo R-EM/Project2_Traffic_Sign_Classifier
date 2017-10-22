@@ -1,58 +1,35 @@
-## Project: Build a Traffic Sign Recognition Program
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
+#**Traffic Sign Recognition** 
 
-Overview
----
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to classify traffic signs. You will train and validate a model so it can classify traffic sign images using the [German Traffic Sign Dataset](http://benchmark.ini.rub.de/?section=gtsrb&subsection=dataset). After the model is trained, you will then try out your model on images of German traffic signs that you find on the web.
+##Writeup
 
-We have included an Ipython notebook that contains further instructions 
-and starter code. Be sure to download the [Ipython notebook](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb). 
 
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
+**Build a Traffic Sign Recognition Project**
 
-To meet specifications, the project will require submitting three files: 
-* the Ipython notebook with the code
-* the code exported as an html file
-* a writeup report either as a markdown or pdf file 
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/481/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
 The goals / steps of this project are the following:
-* Load the data set
+* Load the data set (see below for links to the project data set)
 * Explore, summarize and visualize the data set
 * Design, train and test a model architecture
 * Use the model to make predictions on new images
 * Analyze the softmax probabilities of the new images
 * Summarize the results with a written report
 
-### Dependencies
-This lab requires:
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
+Step 0: Load The Data
+This step is very straight forward. Load the training, validation and testing datasets (both features and labels).
 
-The lab environment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
+Step 1: Dataset Summary & Exploration
+In this step, we begin by checking the sizes and shapes of each dataset. A list with this information is priented in the code.
 
-### Dataset and Repository
+Step 2: Design and Test a Model Architecture
+In this step, the data is pre-processed by first converting the datasets to grayscale, then nomralising it, and finally shuffling it.
 
-1. Download the data set. The classroom has a link to the data set in the "Project Instructions" content. This is a pickled dataset in which we've already resized the images to 32x32. It contains a training, validation and test set.
-2. Clone the project, which contains the Ipython notebook and the writeup template.
-```sh
-git clone https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project
-cd CarND-Traffic-Sign-Classifier-Project
-jupyter notebook Traffic_Sign_Classifier.ipynb
-```
+Next, the Lenet model is modified according o the article that was linked, which was written by Pierre Sermanet and Yann LeCun. Here, a third convolution layer is added, and both layers 2 and 3 are flattened and concatenated. The new concatenated layer is then passed on to the fully connected layers, which were reduced to two instead of three. Validation gives a 95.6% accuracy.
 
-### Requirements for Submission
-Follow the instructions in the `Traffic_Sign_Classifier.ipynb` notebook and write the project report using the writeup template as a guide, `writeup_template.md`. Submit the project code and writeup document.
+Worth mentioning here is that the article seems to use only one fully connected layer, whereas this project uses two. Both were tested, and it was found that two fully connected layers gave a slight increase in accuracy. The reason for choosing one over the other is further explained in step 3.
 
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+Step 3: Test a Model on New Images
+In this step, the model is tested using both the test dataset and a few other pictures. When using the test dataset, an accuracy of 94.5% is obtained, which is greater than the  minimum requirement of 93%. Success!
 
+Next, some images were downloaded using a quick google search for some of the German traffic signs used. These images were then processed the same way the gived datasets were, and the results were presented in the end. The lowest uncertainty noted in this comparison was for the "Children crossing" sign, with an accuracy of 93.62%. This still meets the minimum requirement, showing that the model successfully meets the necessary requirements to pass.
+
+When testing one fully connected layer instead of two, only an accuracy of 80% was obtained on the softmax probabilities test, since one image failed to receive a correct prediction, which is why two, fully connected layers were chosen over one in the end. It may ofcourse be possible to eliminate all errors for the softmax text if more epochs are used for both, but I will settle for a working model using 15 epochs.
